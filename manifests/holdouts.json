@@ -1,0 +1,16 @@
+{
+  "manifest_version": "jpu.holdouts.v1",
+  "diagnostic_holdouts": [
+    "unseen-lexical-variants",
+    "unseen-script-mixtures",
+    "unseen-length-bins",
+    "rare-inflection-depth",
+    "ambiguous-particle-contexts"
+  ],
+  "independent_gold": [
+    {"name": "kwdlc-test", "role": "primary", "training_allowed": false},
+    {"name": "ud-ja-gsd-test", "role": "secondary", "training_allowed": false},
+    {"name": "npcmj-heldout", "role": "future clause evaluation", "training_allowed": false}
+  ],
+  "custom_review_target": {"minimum_sentences": 500, "maximum_sentences": 1000}
+}

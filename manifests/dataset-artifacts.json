@@ -1,0 +1,12 @@
+{
+  "manifest_version": "jpu.dataset-artifacts.v1",
+  "status": "phase1-provisional",
+  "generated_artifacts": [
+    {"name": "natural-sentences", "format": "UTF-8 JSONL", "ignored": true},
+    {"name": "teacher-shards", "format": "UTF-8 JSONL", "ignored": true},
+    {"name": "canonical-records", "format": "UTF-8 JSONL", "ignored": true},
+    {"name": "statistics", "format": "JSON", "ignored": true}
+  ],
+  "release_rule": "publish checksums and manifests, not restricted source text",
+  "release_status": "provisional; inspect data/corpus.json and source manifests before release"
+}

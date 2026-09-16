@@ -1,0 +1,7 @@
+{
+  "name": "@jpu/benchmark",
+  "version": "0.1.0",
+  "private": true,
+  "description": "JPU independent evaluation and benchmark boundary",
+  "license": "MIT"
+}

@@ -1,0 +1,66 @@
+{
+  "manifest_version": "jpu.sources.v1",
+  "natural_target_sentences": 2000000,
+  "default_recipe": [
+    {
+      "id": "fineweb2-ja",
+      "target_fraction": 0.70,
+      "status": "verified_metadata_not_downloaded",
+      "provider": "Hugging Face",
+      "dataset": "HuggingFaceFW/fineweb-2",
+      "configuration": "jpn_Jpan",
+      "revision": "af9c13333eb981300149d5ca60a8e9d659b276b9",
+      "url": "https://huggingface.co/datasets/HuggingFaceFW/fineweb-2",
+      "license": "ODC-By-1.0",
+      "document_id_field": "id",
+      "text_field": "text",
+      "notes": "Dataset-card metadata reports Japanese configuration jpn_Jpan. Preserve URL/dump metadata in local provenance where available."
+    },
+    {
+      "id": "jawiki",
+      "target_fraction": 0.30,
+      "status": "verified_snapshot_not_downloaded",
+      "provider": "Wikimedia Foundation",
+      "dataset": "Japanese Wikipedia pages/articles multistream dump",
+      "configuration": "pages-articles-multistream",
+      "revision": "20260901",
+      "url": "https://dumps.wikimedia.org/jawiki/20260901/jawiki-20260901-pages-articles-multistream.xml.bz2",
+      "dump_size_bytes": 4852895748,
+      "dump_sha1": "98be46ea8ba77352ece82a0b2c00863ddebc1c36",
+      "dump_md5": "be3d5a8c1c7a1804628c1162f0a708df",
+      "dumpstatus_url": "https://dumps.wikimedia.org/jawiki/20260901/dumpstatus.json",
+      "dumpstatus_sha256": "41329feac9fd10217d9488702ed1f73cf78a868114fdd610081b14ccaa9b0618",
+      "license": "CC-BY-SA-4.0; source revisions may also carry GFDL terms",
+      "document_id_field": "page_id",
+      "text_field": "text",
+      "notes": "Select an immutable dated dump and record file SHA-256 before acquisition. Retain page and revision identifiers plus attribution data."
+    }
+  ],
+  "excluded_default_sources": [
+    {
+      "id": "official-fineweb-edu",
+      "dataset": "HuggingFaceFW/fineweb-edu",
+      "revision_checked": "87f09149ef4734204d70ed1d046ddc9ca3f2b8f9",
+      "reason": "Official dataset is tagged language:en and has no Japanese configuration."
+    }
+  ],
+  "optional_ablations": [
+    {
+      "id": "fineweb2-edu-ja-third-party",
+      "status": "not_verified_or_approved_for_acquisition",
+      "dataset": "hotchpotch/fineweb-2-edu-japanese",
+      "url": "https://huggingface.co/datasets/hotchpotch/fineweb-2-edu-japanese",
+      "recipe": {
+        "fineweb2-ja": 0.55,
+        "jawiki": 0.30,
+        "fineweb2-edu-ja-third-party": 0.15
+      },
+      "notes": "Third-party Japanese educational-classifier derivative, not an official FineWeb2-Edu configuration. Verify revision, license, classifier methodology, source overlap, and documented duplicate caveats before an explicit ablation. Never substitute it into the default recipe."
+    }
+  ],
+  "evaluation": [
+    {"id": "kwdlc", "status": "acquired_terms_require_review_before_redistribution", "revision": "c6ae49d29eca4e1134c6676d682adf5ed6a25f5a", "url": "https://github.com/ku-nlp/KWDLC", "usage": "sealed primary test; optional designated train subset only", "notes": "Repository supplies official PAS train/dev/test IDs. README permits research release but explains underlying web text copyright limitations; do not redistribute converted text without review."},
+    {"id": "ud-ja-gsd", "status": "acquired", "revision": "7bc20119f476b552635e0640644e577b6fd3606b", "url": "https://github.com/UniversalDependencies/UD_Japanese-GSD", "license": "CC-BY-SA-3.0", "usage": "sealed secondary test"},
+    {"id": "npcmj", "status": "blocked_official_host_unreachable_and_no_redistributable_corpus_verified", "url": "https://npcmj.ninjal.ac.jp/", "usage": "future train subset for optional fine-tune; held-out clause evaluation", "notes": "Fail closed: no unofficial repository was substituted."}
+  ]
+}

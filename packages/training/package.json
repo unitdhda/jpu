@@ -1,0 +1,7 @@
+{
+  "name": "@jpu/training",
+  "version": "0.1.0",
+  "private": true,
+  "description": "JPU corpus acquisition, annotation, and training boundary",
+  "license": "MIT"
+}

@@ -1,0 +1,16 @@
+{
+  "manifest_version": "jpu.environment.v1",
+  "encoding": "UTF-8",
+  "offset_unit": "Unicode codepoints",
+  "python_requirements": {
+    "teachers": "requirements/phase1-teachers.lock.txt",
+    "model": "requirements/phase2.txt",
+    "webgpu": "requirements/phase3-webgpu.txt"
+  },
+  "teachers": {
+    "sudachi": "SudachiPy and SudachiDict-core from phase1-teachers.lock.txt",
+    "ginza": "GiNZA and ja-ginza from phase1-teachers.lock.txt"
+  },
+  "runtime_policy": "Sudachi and GiNZA are never runtime dependencies",
+  "reproducibility": ["explicit seeds", "document-level splits", "canonical schema version", "source hashes"]
+}

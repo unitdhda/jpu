@@ -1,0 +1,7 @@
+{
+  "name": "@jpu/core",
+  "version": "0.1.0",
+  "private": true,
+  "description": "JPU runtime/model contract boundary",
+  "license": "MIT"
+}

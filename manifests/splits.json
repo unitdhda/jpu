@@ -1,0 +1,9 @@
+{
+  "manifest_version": "jpu.splits.v1",
+  "unit": "document",
+  "assignment": "stable SHA-256 of source plus document_id",
+  "leakage_policy": "sentences from one document remain in one split; exact and near-duplicate documents remain together",
+  "splits": ["train", "validation", "test"],
+  "scale_subsets": [100000, 500000, 1000000, 2000000],
+  "sealed_evaluation": ["kwdlc-test", "ud-ja-gsd-test", "npcmj-heldout"]
+}
