@@ -116,17 +116,25 @@ def _load(path: Path, limit: int | None) -> list[dict[str, Any]]:
     return rows
 
 
-def _model_predictions(rows: list[dict[str, Any]], checkpoint: Path, batch_size: int) -> list[dict[str, Any]]:
+def _load_model(checkpoint: Path, device_name: str) -> JpLexer:
     payload = torch.load(checkpoint, map_location="cpu", weights_only=False)
-    model = JpLexer(ModelConfig(**payload["config"]))
+    device = torch.device(device_name)
+    model = JpLexer(ModelConfig(**payload["config"])).to(device)
     model.load_state_dict(payload["state_dict"])
     model.eval()
+    return model
+
+
+def _model_predictions(rows: list[dict[str, Any]], model: JpLexer,
+                       batch_size: int, device_name: str) -> list[dict[str, Any]]:
+    device = torch.device(device_name)
     result = []
     with torch.inference_mode():
         for start in range(0, len(rows), batch_size):
             group = rows[start:start + batch_size]
             batch = collate_records(group, model.config.codepoint_buckets, model.config.bigram_buckets)
-            outputs = model(batch.inputs)
+            inputs = {key: value.to(device) for key, value in batch.inputs.items()}
+            outputs = model(inputs)
             for index, row in enumerate(group):
                 length = len(row["text"])
                 one = {key: value[index, :length] for key, value in outputs.items()}
@@ -136,45 +144,61 @@ def _model_predictions(rows: list[dict[str, Any]], checkpoint: Path, batch_size:
 
 def benchmark_dataset(rows: list[dict[str, Any]], nlp: Any, ginza: Any,
                       sudachi: Any, tokenizer: Any, checkpoint: Path,
-                      batch_size: int) -> dict[str, Any]:
+                      batch_size: int, device_name: str) -> dict[str, Any]:
     sudachi_all = []
     ginza_all = []
     failures = []
     ginza_start = time.perf_counter()
     docs = list(nlp.pipe((row["text"] for row in rows), batch_size=64, n_process=1))
-    ginza_ms = (time.perf_counter() - ginza_start) * 1000
+    ginza_pipe_ms = (time.perf_counter() - ginza_start) * 1000
+
     sudachi_start = time.perf_counter()
-    for index, (row, doc) in enumerate(zip(rows, docs)):
+    for index, row in enumerate(rows):
         try:
             sudachi_all.append(_sudachi_prediction(row["text"], sudachi, tokenizer))
-            ginza_all.append(_ginza_prediction(row["text"], doc, ginza))
         except Exception as error:
             sudachi_all.append(None)
+            failures.append({"index": index, "text": row["text"], "reason": str(error)})
+    sudachi_ms = (time.perf_counter() - sudachi_start) * 1000
+
+    ginza_conversion_start = time.perf_counter()
+    for index, (row, doc, sudachi_prediction) in enumerate(zip(rows, docs, sudachi_all)):
+        if sudachi_prediction is None:
+            ginza_all.append(None)
+            continue
+        try:
+            ginza_all.append(_ginza_prediction(row["text"], doc, ginza))
+        except Exception as error:
             ginza_all.append(None)
             failures.append({"index": index, "text": row["text"], "reason": str(error)})
-    keep = [index for index, prediction in enumerate(sudachi_all) if prediction is not None]
+    ginza_ms = ginza_pipe_ms + (time.perf_counter() - ginza_conversion_start) * 1000
+
+    keep = [index for index, prediction in enumerate(sudachi_all)
+            if prediction is not None and ginza_all[index] is not None]
     rows = [rows[index] for index in keep]
     sudachi_predictions = [sudachi_all[index] for index in keep]
     ginza_predictions = [ginza_all[index] for index in keep]
-    sudachi_ms = (time.perf_counter() - sudachi_start) * 1000
     combined = [_combine(sudachi, ginza) for sudachi, ginza in zip(sudachi_predictions, ginza_predictions)]
+    model = _load_model(checkpoint, device_name)
     model_start = time.perf_counter()
-    model_predictions = _model_predictions(rows, checkpoint, batch_size)
+    model_predictions = _model_predictions(rows, model, batch_size, device_name)
     model_ms = (time.perf_counter() - model_start) * 1000
     all_model = score_corpus(rows, model_predictions)
+    input_records = len(sudachi_all)
     def runtime(milliseconds: float, measured_batch_size: int) -> dict[str, float | int]:
         return {"wall_ms": milliseconds, "sentences_per_second":
-                len(rows) / (milliseconds / 1000) if milliseconds else 0.0,
-                "ms_per_sentence": milliseconds / len(rows) if rows else 0.0,
+                input_records / (milliseconds / 1000) if milliseconds else 0.0,
+                "ms_per_sentence": milliseconds / input_records if input_records else 0.0,
                 "batch_size": measured_batch_size,
-                "measurement": "total wall time divided by all sentences"}
+                "measurement": "model inference wall time divided by all input sentences; model load excluded"}
     runtimes = {"jpu": runtime(model_ms, batch_size), "sudachi": runtime(sudachi_ms, 1),
                 "ginza": runtime(ginza_ms, 64), "sudachi+ginza": runtime(sudachi_ms + ginza_ms, batch_size)}
     all_teacher = score_corpus(rows, combined)
     all_sudachi = score_corpus(rows, sudachi_predictions)
     all_ginza = score_corpus(rows, ginza_predictions)
     return {
-        "records": len(rows), "teacher_failures": failures,
+        "input_records": input_records, "records": len(rows), "teacher_failures": failures,
+        "device": device_name,
         "systems": {
             "jpu": {**all_model, "runtime": runtimes["jpu"]},
             "sudachi+ginza": {**all_teacher, "runtime": runtimes["sudachi+ginza"]},
@@ -201,6 +225,8 @@ def main() -> None:
                         help="local checkpoint; checkpoints are not redistributed")
     parser.add_argument("--limit", type=int)
     parser.add_argument("--batch-size", type=int, default=64)
+    parser.add_argument("--device", choices=("cpu", "mps"), default="cpu",
+                        help="device for JPU inference timing; scores are device-independent")
     parser.add_argument("--output", type=Path, default=Path("artifacts/teacher-benchmark.json"))
     args = parser.parse_args()
 
@@ -215,9 +241,19 @@ def main() -> None:
     for name, path in (("kwdlc-test", args.kwdlc_test), ("ud-gsd-test", args.ud_test)):
         rows = _load(path, args.limit)
         datasets[name] = benchmark_dataset(rows, nlp, ginza, sudachi, tokenizer,
-                                            args.checkpoint, args.batch_size)
-    report = {"schema": "jpu.teacher-benchmark.v1", "teacher_versions": versions,
-              "checkpoint": str(args.checkpoint), "datasets": datasets}
+                                            args.checkpoint, args.batch_size, args.device)
+    report = {
+        "schema": "jpu.teacher-benchmark.v1",
+        "teacher_versions": versions,
+        "checkpoint": str(args.checkpoint),
+        "metric_contract": {
+            "boundaries": "exact character-gap endpoint F1",
+            "atom_function_role": "character-position weighted label F1; span labels are expanded across covered codepoints",
+            "inflection": "character-position weighted multilabel F1",
+            "complete_tree": "exact equality of boundaries and labeled spans",
+        },
+        "datasets": datasets,
+    }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(report, ensure_ascii=False, indent=2))

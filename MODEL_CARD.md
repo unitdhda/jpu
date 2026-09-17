@@ -25,14 +25,18 @@ The current provenance and acquisition status are recorded in
 The current production 150k checkpoint reports teacher-aligned independent-gold
 results as follows:
 
-| corpus | A F1 | B F1 | bunsetsu F1 | atom macro-F1 | inflection macro-F1 | particle macro-F1 | role macro-F1 |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| KWDLC test | 94.0 | 58.5 | 95.0 | 51.3 | 14.8 | 60.0 | 31.1 |
-| UD Japanese GSD test | 98.2 | 89.4 | 97.6 | 74.3 | 28.1 | 56.8 | 60.3 |
+| corpus | A F1 | B F1 | bunsetsu F1 | atom macro-F1 | inflection macro-F1 | particle macro-F1 | role macro-F1 | tree exact |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| KWDLC test | 94.0 | 58.5 | 95.0 | 51.3 | 14.8 | 60.0 | 31.1 | 0.0 |
+| UD Japanese GSD test | 98.2 | 89.4 | 97.6 | 74.3 | 28.1 | 56.8 | 60.3 | 1.1 |
 
 These are aggregate comparisons against converted annotations, not claims of
-semantic correctness. The 150k model remains weak on B segmentation,
-inflections, and contextual chunk roles. Reproduce the comparison with
+semantic correctness. Boundary scores are exact character-gap endpoint F1;
+atom, particle, and role scores are character-position weighted, while
+inflection is character-position weighted multilabel F1. Complete-tree match
+requires exact equality of boundaries and labeled spans. The 150k model remains
+weak on B segmentation, inflections, and contextual chunk roles. Reproduce the
+comparison with
 `packages/benchmark/benchmark_teachers.py` and the sealed evaluation inputs.
 
 ## Limitations and risks

@@ -89,6 +89,23 @@ function RuntimeBars({ value }) {
   </div>
 }
 
+function WebGpuReference({ value }) {
+  if (!value) return null
+  return <div className="benchmark-note-card">
+    <strong>Measured CPU vs WebGPU · {value.model}</strong>
+    <p>{value.browser}; same sample sentence; warm runs. CPU includes feature encoding, model execution, and decoding. GPU wall time includes the corresponding browser request; GPU-only time is shown separately.</p>
+    <div className="reference-runs">
+      {value.comparison.map((row) => <div className="reference-run" key={row.batch_size}>
+        <span>batch {row.batch_size}</span>
+        <span>CPU {row.cpu_wall_ms.toFixed(2)} ms ({row.cpu_per_sentence_ms.toFixed(2)} ms/s)</span>
+        <span>GPU {row.gpu_wall_ms.toFixed(2)} ms ({row.gpu_per_sentence_ms.toFixed(2)} ms/s)</span>
+        <span>{row.speedup.toFixed(1)}× throughput</span>
+      </div>)}
+    </div>
+    <p className="muted">GPU-only passes were {value.warm_batches.map((row) => `${row.batch_size}: ${row.gpu_ms.toFixed(0)} ms`).join(' · ')}. Cold sample request: {value.cold.wall_ms.toFixed(0)} ms wall / {value.cold.gpu_ms.toFixed(0)} ms GPU.</p>
+  </div>
+}
+
 function LiveRuntimeBars({ result }) {
   const [hover, setHover] = useState(null)
   if (!result) return null
@@ -188,7 +205,7 @@ function Benchmark({ benchmark, timing }) {
   if (!benchmark) return <section className="benchmark-section"><div className="section-heading"><h2>Benchmark against teachers</h2></div><p className="muted">Loading benchmark results…</p></section>
   return <section className="benchmark-section">
     <div className="section-heading"><h2>Benchmark against teachers</h2><span className="muted">independent gold test sets</span></div>
-    <p className="muted">These charts compare independent-gold quality scores. The offline Python runtime is <strong>total CPU wall time divided by all sentences</strong>; model rows were measured with batch size 64, so it is a throughput reference, not single-sentence latency. The WebGPU chart is a live warm direct-WGSL measurement for the selected model, shown as total GPU time divided by its batch size. CPU and GPU times are not directly comparable across machines or backends.</p>
+    <p className="muted">These charts compare independent-gold quality scores. The offline Python runtime is <strong>CPU inference wall time divided by all sentences</strong>; model rows were measured with batch size 64, so it is a throughput reference, not single-sentence latency. The WebGPU chart is a live warm direct-WGSL measurement for the selected model, shown as total GPU time divided by its batch size. CPU and GPU times are not directly comparable across machines or backends.</p>
     <details className="benchmark-explainer" open>
       <summary>What do these labels and runtime numbers mean?</summary>
       <p>F1 is a single 0–100 score that rewards correct answers while penalizing both missed answers and made-up answers. “Macro” means we calculate a separate score for each label category and then average them, so common labels cannot hide poor performance on rare labels.</p>
@@ -208,6 +225,7 @@ function Benchmark({ benchmark, timing }) {
       <BenchmarkBars value={value} />
       <RuntimeBars value={value} />
     </div>)}
+    <WebGpuReference value={benchmark.webgpu_reference} />
     <p className="muted benchmark-note">Model quality charts are independent-gold scores, not browser measurements. The chart bars expose the concrete category and value on hover or keyboard focus.</p>
     <h3>Current direct WGSL/WebGPU run</h3>
     <Timing timing={timing} />
@@ -412,7 +430,7 @@ function App() {
     <Benchmark benchmark={benchmark} timing={timing} />
     <BrowserBenchmark result={browserBenchmark} running={browserBenchmarkRunning} status={browserBenchmarkStatus} onRun={runBrowserBenchmark} available={webgpu} modelSize={modelSize} />
 
-    <footer className="site-footer muted">{modelSize} parameters · Unicode codepoints · packed FP16 weights · no runtime dictionary · experimental project inspired by <a href="https://github.com/vercel-labs/gpu-lexer" target="_blank" rel="noreferrer">Shu Ding's gpu-lexer</a> · <a href="https://github.com/unitdhda/gpu-jpu/blob/main/THIRD_PARTY_NOTICES.md" target="_blank" rel="noreferrer">notices</a></footer>
+    <footer className="site-footer muted">{modelSize} parameters · Unicode codepoints · packed FP16 weights · no runtime dictionary · experimental project inspired by <a href="https://github.com/vercel-labs/gpu-lexer" target="_blank" rel="noreferrer">Shu Ding's gpu-lexer</a> · <a href="https://github.com/unitdhda/jpu/blob/main/THIRD_PARTY_NOTICES.md" target="_blank" rel="noreferrer">notices</a></footer>
   </main>
 }
 
