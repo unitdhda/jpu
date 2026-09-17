@@ -1,9 +1,9 @@
 # JPU
 
-<video controls width="100%">
-  <source src="apps/website/public/jpu-pipeline.mp4" type="video/mp4">
-  Your browser does not support embedded video. See
-  [jpu-pipeline.mp4](apps/website/public/jpu-pipeline.mp4).
+<video controls>
+     <source
+ src="https://raw.githubusercontent.com/unitdhda/jpu/main/apps/website/public/jpu-pipeline.mp4"
+ type="video/mp4">
 </video>
 
 JPU is an experimental Japanese surface-grammar analyzer powered directly by
