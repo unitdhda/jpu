@@ -1,0 +1,406 @@
+{
+  "schema": "jpu.custom-webgpu.v1",
+  "model_size": "150k",
+  "max_length": 128,
+  "weight_format": "two-little-endian-fp16-per-u32",
+  "parameter_count": 134832,
+  "packed_words": 67416,
+  "hidden": 64,
+  "codepoint_buckets": 8192,
+  "bigram_buckets": 8192,
+  "categorical_dim": 22,
+  "dilations": [
+    1,
+    2,
+    4,
+    8,
+    16
+  ],
+  "atom_classes": 12,
+  "function_classes": 12,
+  "inflection_classes": 10,
+  "role_classes": 9,
+  "boundary_classes": 5,
+  "tensors": {
+    "codepoint_embedding.weight": {
+      "offset": 0,
+      "length": 65536,
+      "shape": [
+        8192,
+        8
+      ]
+    },
+    "bigram_embedding.weight": {
+      "offset": 65536,
+      "length": 32768,
+      "shape": [
+        8192,
+        4
+      ]
+    },
+    "input_projection.weight": {
+      "offset": 98304,
+      "length": 2176,
+      "shape": [
+        64,
+        34
+      ]
+    },
+    "input_projection.bias": {
+      "offset": 100480,
+      "length": 64,
+      "shape": [
+        64
+      ]
+    },
+    "convolution.0.depthwise.weight": {
+      "offset": 100544,
+      "length": 192,
+      "shape": [
+        64,
+        1,
+        3
+      ]
+    },
+    "convolution.0.depthwise.bias": {
+      "offset": 100736,
+      "length": 64,
+      "shape": [
+        64
+      ]
+    },
+    "convolution.0.pointwise.weight": {
+      "offset": 100800,
+      "length": 4096,
+      "shape": [
+        64,
+        64,
+        1
+      ]
+    },
+    "convolution.0.pointwise.bias": {
+      "offset": 104896,
+      "length": 64,
+      "shape": [
+        64
+      ]
+    },
+    "convolution.0.norm.weight": {
+      "offset": 104960,
+      "length": 64,
+      "shape": [
+        64
+      ]
+    },
+    "convolution.0.norm.bias": {
+      "offset": 105024,
+      "length": 64,
+      "shape": [
+        64
+      ]
+    },
+    "convolution.1.depthwise.weight": {
+      "offset": 105088,
+      "length": 192,
+      "shape": [
+        64,
+        1,
+        3
+      ]
+    },
+    "convolution.1.depthwise.bias": {
+      "offset": 105280,
+      "length": 64,
+      "shape": [
+        64
+      ]
+    },
+    "convolution.1.pointwise.weight": {
+      "offset": 105344,
+      "length": 4096,
+      "shape": [
+        64,
+        64,
+        1
+      ]
+    },
+    "convolution.1.pointwise.bias": {
+      "offset": 109440,
+      "length": 64,
+      "shape": [
+        64
+      ]
+    },
+    "convolution.1.norm.weight": {
+      "offset": 109504,
+      "length": 64,
+      "shape": [
+        64
+      ]
+    },
+    "convolution.1.norm.bias": {
+      "offset": 109568,
+      "length": 64,
+      "shape": [
+        64
+      ]
+    },
+    "convolution.2.depthwise.weight": {
+      "offset": 109632,
+      "length": 192,
+      "shape": [
+        64,
+        1,
+        3
+      ]
+    },
+    "convolution.2.depthwise.bias": {
+      "offset": 109824,
+      "length": 64,
+      "shape": [
+        64
+      ]
+    },
+    "convolution.2.pointwise.weight": {
+      "offset": 109888,
+      "length": 4096,
+      "shape": [
+        64,
+        64,
+        1
+      ]
+    },
+    "convolution.2.pointwise.bias": {
+      "offset": 113984,
+      "length": 64,
+      "shape": [
+        64
+      ]
+    },
+    "convolution.2.norm.weight": {
+      "offset": 114048,
+      "length": 64,
+      "shape": [
+        64
+      ]
+    },
+    "convolution.2.norm.bias": {
+      "offset": 114112,
+      "length": 64,
+      "shape": [
+        64
+      ]
+    },
+    "convolution.3.depthwise.weight": {
+      "offset": 114176,
+      "length": 192,
+      "shape": [
+        64,
+        1,
+        3
+      ]
+    },
+    "convolution.3.depthwise.bias": {
+      "offset": 114368,
+      "length": 64,
+      "shape": [
+        64
+      ]
+    },
+    "convolution.3.pointwise.weight": {
+      "offset": 114432,
+      "length": 4096,
+      "shape": [
+        64,
+        64,
+        1
+      ]
+    },
+    "convolution.3.pointwise.bias": {
+      "offset": 118528,
+      "length": 64,
+      "shape": [
+        64
+      ]
+    },
+    "convolution.3.norm.weight": {
+      "offset": 118592,
+      "length": 64,
+      "shape": [
+        64
+      ]
+    },
+    "convolution.3.norm.bias": {
+      "offset": 118656,
+      "length": 64,
+      "shape": [
+        64
+      ]
+    },
+    "convolution.4.depthwise.weight": {
+      "offset": 118720,
+      "length": 192,
+      "shape": [
+        64,
+        1,
+        3
+      ]
+    },
+    "convolution.4.depthwise.bias": {
+      "offset": 118912,
+      "length": 64,
+      "shape": [
+        64
+      ]
+    },
+    "convolution.4.pointwise.weight": {
+      "offset": 118976,
+      "length": 4096,
+      "shape": [
+        64,
+        64,
+        1
+      ]
+    },
+    "convolution.4.pointwise.bias": {
+      "offset": 123072,
+      "length": 64,
+      "shape": [
+        64
+      ]
+    },
+    "convolution.4.norm.weight": {
+      "offset": 123136,
+      "length": 64,
+      "shape": [
+        64
+      ]
+    },
+    "convolution.4.norm.bias": {
+      "offset": 123200,
+      "length": 64,
+      "shape": [
+        64
+      ]
+    },
+    "scan.forward_project.weight": {
+      "offset": 123264,
+      "length": 4096,
+      "shape": [
+        64,
+        64
+      ]
+    },
+    "scan.forward_project.bias": {
+      "offset": 127360,
+      "length": 64,
+      "shape": [
+        64
+      ]
+    },
+    "scan.backward_project.weight": {
+      "offset": 127424,
+      "length": 4096,
+      "shape": [
+        64,
+        64
+      ]
+    },
+    "scan.backward_project.bias": {
+      "offset": 131520,
+      "length": 64,
+      "shape": [
+        64
+      ]
+    },
+    "scan.forward_decay": {
+      "offset": 131584,
+      "length": 64,
+      "shape": [
+        64
+      ]
+    },
+    "scan.backward_decay": {
+      "offset": 131648,
+      "length": 64,
+      "shape": [
+        64
+      ]
+    },
+    "boundary_head.weight": {
+      "offset": 131712,
+      "length": 320,
+      "shape": [
+        5,
+        64
+      ]
+    },
+    "boundary_head.bias": {
+      "offset": 132032,
+      "length": 5,
+      "shape": [
+        5
+      ]
+    },
+    "atom_head.weight": {
+      "offset": 132037,
+      "length": 768,
+      "shape": [
+        12,
+        64
+      ]
+    },
+    "atom_head.bias": {
+      "offset": 132805,
+      "length": 12,
+      "shape": [
+        12
+      ]
+    },
+    "function_head.weight": {
+      "offset": 132817,
+      "length": 768,
+      "shape": [
+        12,
+        64
+      ]
+    },
+    "function_head.bias": {
+      "offset": 133585,
+      "length": 12,
+      "shape": [
+        12
+      ]
+    },
+    "inflection_head.weight": {
+      "offset": 133597,
+      "length": 640,
+      "shape": [
+        10,
+        64
+      ]
+    },
+    "inflection_head.bias": {
+      "offset": 134237,
+      "length": 10,
+      "shape": [
+        10
+      ]
+    },
+    "role_head.weight": {
+      "offset": 134247,
+      "length": 576,
+      "shape": [
+        9,
+        64
+      ]
+    },
+    "role_head.bias": {
+      "offset": 134823,
+      "length": 9,
+      "shape": [
+        9
+      ]
+    }
+  }
+}

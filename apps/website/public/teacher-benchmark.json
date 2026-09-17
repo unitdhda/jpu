@@ -1,0 +1,36 @@
+{
+  "schema": "jpu.teacher-benchmark-summary.v2",
+  "models": ["50k", "150k"],
+  "checkpoints": {
+    "50k": "apps/website/public/models/jpu-50k-custom.bin",
+    "150k": "apps/website/public/models/jpu-150k-custom.bin"
+  },
+  "benchmark_protocol": {
+    "offline_python": "total wall-clock CPU time divided by sentences in the corpus; jpu and combined teacher use batch_size=64, Sudachi uses 1, GiNZA spaCy pipe uses 64",
+    "webgpu": "live browser measurement for the selected model; warm direct-WGSL GPU time, reported as total GPU time divided by the batch size",
+    "comparison": "offline Python and WebGPU are different machines/runtimes; compare only within a backend and always read the batch size",
+    "capacity_caveat": "50k and 150k use the production-corpus recipe, but this is not yet a controlled size-scaling ablation"
+  },
+  "datasets": {
+    "KWDLC test": {
+      "sentences": 2195,
+      "systems": {
+        "jpu · 50k": {"a": 93.7, "b": 58.2, "bunsetsu": 94.4, "atom": 50.7, "inflection": 12.5, "particle": 59.9, "role": 30.7, "runtime_ms": 13.8, "runtime_batch_size": 64},
+        "jpu · 150k": {"a": 94.0, "b": 58.5, "bunsetsu": 95.0, "atom": 51.3, "inflection": 14.8, "particle": 60.0, "role": 31.1, "runtime_ms": 16.1, "runtime_batch_size": 64},
+        "Sudachi + GiNZA": {"a": 95.0, "b": 59.1, "bunsetsu": 95.2, "atom": 52.6, "inflection": 19.3, "particle": 60.1, "role": 31.1, "runtime_ms": 32.3, "runtime_batch_size": 64},
+        "Sudachi": {"a": 95.0, "b": 59.1, "bunsetsu": null, "atom": 52.6, "inflection": 19.3, "particle": 60.1, "role": null, "runtime_ms": 1.3, "runtime_batch_size": 1},
+        "GiNZA": {"a": null, "b": null, "bunsetsu": 95.2, "atom": null, "inflection": null, "particle": null, "role": 31.1, "runtime_ms": 30.9, "runtime_batch_size": 64}
+      }
+    },
+    "UD-GSD test": {
+      "sentences": 537,
+      "systems": {
+        "jpu · 50k": {"a": 97.9, "b": 89.5, "bunsetsu": 96.6, "atom": 73.1, "inflection": 27.9, "particle": 56.7, "role": 58.9, "runtime_ms": 13.8, "runtime_batch_size": 64},
+        "jpu · 150k": {"a": 98.2, "b": 89.4, "bunsetsu": 97.6, "atom": 74.3, "inflection": 28.1, "particle": 56.8, "role": 60.3, "runtime_ms": 22.7, "runtime_batch_size": 64},
+        "Sudachi + GiNZA": {"a": 99.3, "b": 90.1, "bunsetsu": 98.4, "atom": 78.3, "inflection": 28.3, "particle": 56.9, "role": 64.9, "runtime_ms": 41.0, "runtime_batch_size": 64},
+        "Sudachi": {"a": 99.3, "b": 90.1, "bunsetsu": null, "atom": 78.3, "inflection": 28.3, "particle": 56.9, "role": null, "runtime_ms": 1.1, "runtime_batch_size": 1},
+        "GiNZA": {"a": null, "b": null, "bunsetsu": 98.4, "atom": null, "inflection": null, "particle": null, "role": 64.9, "runtime_ms": 39.8, "runtime_batch_size": 64}
+      }
+    }
+  }
+}

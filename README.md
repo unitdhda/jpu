@@ -1,69 +1,82 @@
 # JPU
 
-JPU is an experimental project inspired by Shu Ding's
-[`gpu-lexer`](https://github.com/shuding/gpu-lexer). It is an independent
-implementation with an independent Japanese corpus and teacher pipeline.
+JPU is an experimental Japanese surface-grammar analyzer powered directly by
+WebGPU. A 134,832-parameter model predicts morphology and shallow structure at
+Unicode character gaps; deterministic code composes those predictions into a
+valid nested tree.
 
-JPU is a tiny Japanese surface-grammar analyzer designed for browser and
-small-device deployment. It combines a compact PyTorch model with a
-deterministic hierarchical composer:
+```js
+import { CustomWebGpuLexer } from "jpu";
 
-```text
-Unicode codepoints → boundary/label predictions → valid nested surface tree
+const analyzer = await CustomWebGpuLexer.create({ modelSize: "150k" });
+const result = await analyzer.analyze("昨日は映画を見た。");
 ```
 
-It predicts coarse morphology, particle functions, inflection flags, and
-bunsetsu-level roles. It does not predict dependencies, semantics, omitted
-subjects, readings, translation, or free-form text.
+The browser runtime requires WebGPU and a secure context. It has no Sudachi,
+GiNZA, ONNX Runtime, dictionary, Transformer, or LLM dependency.
 
-## Repository layout
+## How it works
 
-```text
-apps/                 application/package entry points
-packages/             workspace metadata for core, training, and evaluation
-web/public/models/    exported WebGPU weight assets
-data/                 acquisition, alignment, canonical labels, augmentation
-manifests/            versioned corpus, split, holdout, and environment manifests
-schemas/              readable release schemas
-jp_lexer/             Python model, feature, loss, and decoder implementation
-scripts/              corpus, annotation, training, and export commands
-eval/                 metrics, teacher benchmarks, and error analysis
-tests/                deterministic unit tests
-```
+The CPU computes stable codepoint and right-bigram hash buckets plus 22 Unicode
+categories. WebGPU looks up compact embeddings, projects each codepoint to 64
+channels, applies five residual separable convolutions and a bidirectional
+diagonal affine scan, then evaluates five output heads. A deterministic decoder
+closes boundary levels and emits `SENTENCE → CLAUSE → BUNSETSU → B → A`.
 
-The package boundaries mirror the gpu-lexer-style separation between app,
-core/runtime, training data, benchmark, and release metadata while preserving
-JPU's existing Python implementation and Japanese teacher pipeline.
+The promoted runtime uses 134,832 packed-FP16 weights. See
+[architecture.md](architecture.md) for tensor shapes and composition details.
+
+## Accuracy
+
+The primary 150k checkpoint reaches the following independent converted-gold
+scores:
+
+| corpus | A F1 | B F1 | bunsetsu F1 | atom macro-F1 | particle macro-F1 | role macro-F1 |
+|---|---:|---:|---:|---:|---:|---:|
+| KWDLC | 94.0 | 58.5 | 95.0 | 51.3 | 60.0 | 31.1 |
+| UD Japanese GSD | 98.2 | 89.4 | 97.6 | 74.3 | 56.8 | 60.3 |
+
+JPU remains weak on B segmentation, inflection labels, and contextual chunk
+roles. These numbers measure agreement with converted annotations, not semantic
+correctness. See [MODEL_CARD.md](MODEL_CARD.md).
+
+## Pipeline video
+
+The silent explainer video shows JPU's actual runtime path from raw Unicode
+input through WebGPU features, contextual layers, prediction heads, and
+deterministic composition:
+
+[Watch the JPU pipeline video](apps/website/public/jpu-pipeline.mp4)
+
+The Manim source and storyboard are in [`video/`](video/).
 
 ## Development
 
-Create the pinned Python environment for the phase being worked on, then run:
-
 ```sh
-PYTHONPATH=. .venv/bin/python -m unittest discover -s tests
+corepack pnpm install
+corepack pnpm test
+corepack pnpm build:website
 ```
 
-## Corpus build
+Python model and corpus tests require the dependencies in
+`packages/training/requirements-torch.txt`.
 
-The reproducible Phase 1 flow is deliberately offline-teacher based:
+## Repository
 
-```text
-source documents
-  → normalized document JSONL
-  → document-level deduplication and split assignment
-  → Unicode-preserving sentence extraction
-  → Sudachi A/B + GiNZA annotation
-  → strict alignment and canonical validation
-  → readable JSONL plus failure/statistics reports
-```
+- `packages/core`: publishable JavaScript/WebGPU runtime
+- `packages/training`: corpus compiler, PyTorch model, training, and export
+- `packages/benchmark`: independent metrics and teacher comparisons
+- `apps/website`: interactive demo and promoted model assets
+- `video`: Manim explainer source and storyboard
 
-Natural corpus construction is fail-closed. It does not silently substitute a
-third-party dataset for the pinned 70/30 FineWeb2 Japanese/Wikipedia recipe.
-See `data/corpus.json`, `manifests/source-corpora.json`, and
-`data/acquisition/sources.v1.json` before acquiring source text.
+Corpora, checkpoints, generated training arrays, and local runs are intentionally
+ignored. Provenance manifests are tracked instead.
 
-## License and data terms
+JPU is an independent project inspired by Shu Ding's
+[`gpu-lexer`](https://github.com/vercel-labs/gpu-lexer); it does not reuse that
+project's code, weights, or corpus.
 
-JPU code is MIT-licensed. Training and evaluation corpora are not automatically
-licensed by this repository; their source-specific terms and attribution rules
-are documented in `THIRD_PARTY_NOTICES.md`.
+## License
+
+MIT. Source corpora, teacher software, evaluation sets, and fonts retain their
+own terms; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

@@ -1,3 +1,0 @@
-# Export/quantization tools; not runtime model dependencies.
-onnx==1.20.1
-onnxruntime==1.23.2

@@ -2,6 +2,9 @@
   "name": "@jpu/benchmark",
   "version": "0.1.0",
   "private": true,
-  "description": "JPU independent evaluation and benchmark boundary",
-  "license": "MIT"
+  "description": "Independent gold and teacher benchmarks for JPU",
+  "license": "MIT",
+  "scripts": {
+    "benchmark:teachers": "PYTHONPATH=../training:../.. python3 -m packages.benchmark.benchmark_teachers"
+  }
 }

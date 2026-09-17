@@ -1,0 +1,3 @@
+# Phase 2 runtime/model environment. Teachers remain phase1-only.
+numpy==2.5.3
+torch==2.14.0

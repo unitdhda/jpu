@@ -2,6 +2,11 @@
   "name": "@jpu/training",
   "version": "0.1.0",
   "private": true,
-  "description": "JPU corpus acquisition, annotation, and training boundary",
-  "license": "MIT"
+  "description": "Corpus compilation, PyTorch training, evaluation, and WebGPU export for JPU",
+  "license": "MIT",
+  "scripts": {
+    "test": "PYTHONPATH=. python3 -m unittest discover -s test",
+    "corpus:build": "PYTHONPATH=. python3 scripts/build_natural_corpus.py",
+    "corpus:compile": "PYTHONPATH=. python3 scripts/compile_corpus.py"
+  }
 }

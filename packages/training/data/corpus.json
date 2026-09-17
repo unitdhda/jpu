@@ -1,0 +1,23 @@
+{
+  "dataset_version": "jpu.phase1.v1",
+  "inspiration_note": "Experimental project inspired by Shu Ding's gpu-lexer; independent Japanese corpus and teacher pipeline.",
+  "status": "provisional; do not treat as a frozen release",
+  "target_sentences": 2000000,
+  "sentence_codepoints": {"minimum": 4, "maximum": 128},
+  "recipe": [
+    {"source": "fineweb2-ja", "fraction": 0.70},
+    {"source": "jawiki", "fraction": 0.30}
+  ],
+  "split_unit": "document",
+  "scale_subsets": [100000, 500000, 1000000, 2000000],
+  "teachers": {
+    "sudachi_mode_a": ["a-boundaries", "atom-type", "morphology", "particle-function"],
+    "sudachi_mode_b": ["b-boundaries"],
+    "ginza": ["bunsetsu-boundaries", "bunsetsu-role"]
+  },
+  "synthetic_morphology": {"target_batch_fraction": [0.10, 0.20], "lemma_family_split": true},
+  "canonical_output": "artifacts/phase1/canonical.jsonl",
+  "failure_output": "artifacts/phase1/failures.jsonl",
+  "stats_output": "artifacts/phase1/stats.json",
+  "provenance": "packages/training/data/acquisition/sources.v1.json"
+}

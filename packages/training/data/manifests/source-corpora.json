@@ -1,0 +1,26 @@
+{
+  "manifest_version": "jpu.source-corpora.v1",
+  "inspiration_note": "JPU is an experimental project inspired by Shu Ding's gpu-lexer; no gpu-lexer corpus or code is used as a source.",
+  "default_recipe": [
+    {
+      "source": "fineweb2-ja",
+      "fraction": 0.7,
+      "dataset": "HuggingFaceFW/fineweb-2",
+      "configuration": "jpn_Jpan",
+      "license": "ODC-By-1.0",
+      "status": "see packages/training/data/acquisition/sources.v1.json"
+    },
+    {
+      "source": "jawiki",
+      "fraction": 0.3,
+      "dataset": "Japanese Wikipedia dated dump",
+      "license": "CC-BY-SA-4.0; possible GFDL source terms",
+      "status": "see packages/training/data/acquisition/sources.v1.json"
+    }
+  ],
+  "teacher_sources": [
+    {"name": "SudachiPy", "modes": ["A", "B"], "role": "surface segmentation and morphology"},
+    {"name": "GiNZA", "role": "bunsetsu and shallow syntax"}
+  ],
+  "redistribution": "source text is acquired locally and is not included in this repository"
+}

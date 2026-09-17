@@ -1,0 +1,460 @@
+{
+  "text": "昨日は友達と映画を見に行かなかった。",
+  "tokens": [
+    {
+      "start": 0,
+      "end": 2,
+      "atom_type": "NOUN_LIKE",
+      "function": null,
+      "inflections": [],
+      "confidence": 0.887
+    },
+    {
+      "start": 2,
+      "end": 3,
+      "atom_type": "PARTICLE",
+      "function": "TOPIC",
+      "inflections": [],
+      "confidence": 0.996
+    },
+    {
+      "start": 3,
+      "end": 5,
+      "atom_type": "NOUN_LIKE",
+      "function": null,
+      "inflections": [],
+      "confidence": 0.909
+    },
+    {
+      "start": 5,
+      "end": 6,
+      "atom_type": "PARTICLE",
+      "function": "COMITATIVE",
+      "inflections": [],
+      "confidence": 1.0
+    },
+    {
+      "start": 6,
+      "end": 8,
+      "atom_type": "NOUN_LIKE",
+      "function": null,
+      "inflections": [],
+      "confidence": 0.938
+    },
+    {
+      "start": 8,
+      "end": 9,
+      "atom_type": "PARTICLE",
+      "function": "OBJECT",
+      "inflections": [],
+      "confidence": 0.999
+    },
+    {
+      "start": 9,
+      "end": 10,
+      "atom_type": "NOUN_LIKE",
+      "function": null,
+      "inflections": [],
+      "confidence": 0.378
+    },
+    {
+      "start": 10,
+      "end": 11,
+      "atom_type": "PARTICLE",
+      "function": "UNKNOWN",
+      "inflections": [],
+      "confidence": 0.961
+    },
+    {
+      "start": 11,
+      "end": 13,
+      "atom_type": "VERB_STEM",
+      "function": null,
+      "inflections": [],
+      "confidence": 0.977
+    },
+    {
+      "start": 13,
+      "end": 16,
+      "atom_type": "AUXILIARY",
+      "function": null,
+      "inflections": [
+        "TE_FORM"
+      ],
+      "confidence": 0.652
+    },
+    {
+      "start": 16,
+      "end": 17,
+      "atom_type": "AUXILIARY",
+      "function": null,
+      "inflections": [
+        "PAST"
+      ],
+      "confidence": 0.995
+    },
+    {
+      "start": 17,
+      "end": 18,
+      "atom_type": "PUNCT_SYMBOL",
+      "function": null,
+      "inflections": [],
+      "confidence": 1.0
+    }
+  ],
+  "bunsetsu": [
+    {
+      "start": 0,
+      "end": 3,
+      "role": "TOPIC"
+    },
+    {
+      "start": 3,
+      "end": 6,
+      "role": "CASED_NOMINAL"
+    },
+    {
+      "start": 6,
+      "end": 9,
+      "role": "CASED_NOMINAL"
+    },
+    {
+      "start": 9,
+      "end": 11,
+      "role": "PREDICATE"
+    },
+    {
+      "start": 11,
+      "end": 18,
+      "role": "PREDICATE"
+    }
+  ],
+  "boundaries": {
+    "a": [
+      2,
+      3,
+      5,
+      6,
+      8,
+      9,
+      10,
+      11,
+      13,
+      16,
+      17,
+      18
+    ],
+    "b": [
+      2,
+      3,
+      5,
+      6,
+      8,
+      9,
+      10,
+      11,
+      13,
+      16,
+      17,
+      18
+    ],
+    "bunsetsu": [
+      3,
+      6,
+      9,
+      11,
+      18
+    ],
+    "clause": [
+      18
+    ],
+    "sentence": [
+      18
+    ]
+  },
+  "tree": {
+    "type": "SENTENCE",
+    "start": 0,
+    "end": 18,
+    "text": "昨日は友達と映画を見に行かなかった。",
+    "children": [
+      {
+        "type": "CLAUSE",
+        "start": 0,
+        "end": 18,
+        "text": "昨日は友達と映画を見に行かなかった。",
+        "children": [
+          {
+            "type": "BUNSETSU",
+            "start": 0,
+            "end": 3,
+            "text": "昨日は",
+            "role": "TOPIC",
+            "children": [
+              {
+                "type": "B",
+                "start": 0,
+                "end": 2,
+                "text": "昨日",
+                "children": [
+                  {
+                    "type": "A",
+                    "start": 0,
+                    "end": 2,
+                    "text": "昨日",
+                    "atom_type": "NOUN_LIKE",
+                    "function": null,
+                    "inflections": [],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "type": "B",
+                "start": 2,
+                "end": 3,
+                "text": "は",
+                "children": [
+                  {
+                    "type": "A",
+                    "start": 2,
+                    "end": 3,
+                    "text": "は",
+                    "atom_type": "PARTICLE",
+                    "function": "TOPIC",
+                    "inflections": [],
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "BUNSETSU",
+            "start": 3,
+            "end": 6,
+            "text": "友達と",
+            "role": "CASED_NOMINAL",
+            "children": [
+              {
+                "type": "B",
+                "start": 3,
+                "end": 5,
+                "text": "友達",
+                "children": [
+                  {
+                    "type": "A",
+                    "start": 3,
+                    "end": 5,
+                    "text": "友達",
+                    "atom_type": "NOUN_LIKE",
+                    "function": null,
+                    "inflections": [],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "type": "B",
+                "start": 5,
+                "end": 6,
+                "text": "と",
+                "children": [
+                  {
+                    "type": "A",
+                    "start": 5,
+                    "end": 6,
+                    "text": "と",
+                    "atom_type": "PARTICLE",
+                    "function": "COMITATIVE",
+                    "inflections": [],
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "BUNSETSU",
+            "start": 6,
+            "end": 9,
+            "text": "映画を",
+            "role": "CASED_NOMINAL",
+            "children": [
+              {
+                "type": "B",
+                "start": 6,
+                "end": 8,
+                "text": "映画",
+                "children": [
+                  {
+                    "type": "A",
+                    "start": 6,
+                    "end": 8,
+                    "text": "映画",
+                    "atom_type": "NOUN_LIKE",
+                    "function": null,
+                    "inflections": [],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "type": "B",
+                "start": 8,
+                "end": 9,
+                "text": "を",
+                "children": [
+                  {
+                    "type": "A",
+                    "start": 8,
+                    "end": 9,
+                    "text": "を",
+                    "atom_type": "PARTICLE",
+                    "function": "OBJECT",
+                    "inflections": [],
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "BUNSETSU",
+            "start": 9,
+            "end": 11,
+            "text": "見に",
+            "role": "PREDICATE",
+            "children": [
+              {
+                "type": "B",
+                "start": 9,
+                "end": 10,
+                "text": "見",
+                "children": [
+                  {
+                    "type": "A",
+                    "start": 9,
+                    "end": 10,
+                    "text": "見",
+                    "atom_type": "NOUN_LIKE",
+                    "function": null,
+                    "inflections": [],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "type": "B",
+                "start": 10,
+                "end": 11,
+                "text": "に",
+                "children": [
+                  {
+                    "type": "A",
+                    "start": 10,
+                    "end": 11,
+                    "text": "に",
+                    "atom_type": "PARTICLE",
+                    "function": "UNKNOWN",
+                    "inflections": [],
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "BUNSETSU",
+            "start": 11,
+            "end": 18,
+            "text": "行かなかった。",
+            "role": "PREDICATE",
+            "children": [
+              {
+                "type": "B",
+                "start": 11,
+                "end": 13,
+                "text": "行か",
+                "children": [
+                  {
+                    "type": "A",
+                    "start": 11,
+                    "end": 13,
+                    "text": "行か",
+                    "atom_type": "VERB_STEM",
+                    "function": null,
+                    "inflections": [],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "type": "B",
+                "start": 13,
+                "end": 16,
+                "text": "なかっ",
+                "children": [
+                  {
+                    "type": "A",
+                    "start": 13,
+                    "end": 16,
+                    "text": "なかっ",
+                    "atom_type": "AUXILIARY",
+                    "function": null,
+                    "inflections": [
+                      "TE_FORM"
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "type": "B",
+                "start": 16,
+                "end": 17,
+                "text": "た",
+                "children": [
+                  {
+                    "type": "A",
+                    "start": 16,
+                    "end": 17,
+                    "text": "た",
+                    "atom_type": "AUXILIARY",
+                    "function": null,
+                    "inflections": [
+                      "PAST"
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "type": "B",
+                "start": 17,
+                "end": 18,
+                "text": "。",
+                "children": [
+                  {
+                    "type": "A",
+                    "start": 17,
+                    "end": 18,
+                    "text": "。",
+                    "atom_type": "PUNCT_SYMBOL",
+                    "function": null,
+                    "inflections": [],
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "preview": false,
+  "source": "phase3-small-150k-85-10-5",
+  "model": "150k",
+  "device": "production-checkpoint"
+}

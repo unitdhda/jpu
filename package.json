@@ -1,14 +1,13 @@
 {
   "name": "jpu-monorepo",
-  "version": "0.1.0",
   "private": true,
   "packageManager": "pnpm@11.13.0",
-  "description": "Compact Japanese surface-grammar analyzer with deterministic composition",
-  "license": "MIT",
   "scripts": {
-    "test": "python3 -m unittest discover -s tests",
-    "corpus:compile": "python3 scripts/compile_corpus.py",
-    "corpus:build": "python3 scripts/build_natural_corpus.py",
-    "benchmark:teachers": "PYTHONPATH=. python3 eval/benchmark_teachers.py"
+    "test": "node --test packages/core/test/*.test.js && PYTHONPATH=packages/training python3 -m unittest discover -s packages/training/test",
+    "test:core": "node --test packages/core/test/*.test.js",
+    "test:training": "PYTHONPATH=packages/training python3 -m unittest discover -s packages/training/test",
+    "benchmark:teachers": "PYTHONPATH=packages/training:. python3 -m packages.benchmark.benchmark_teachers",
+    "build:website": "corepack pnpm --filter @jpu/website build",
+    "website:dev": "corepack pnpm --filter @jpu/website dev"
   }
 }

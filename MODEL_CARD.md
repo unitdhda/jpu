@@ -17,7 +17,8 @@ The default pseudo-gold recipe is 70% FineWeb2 Japanese and 30% Japanese
 Wikipedia, split by document. Sudachi Mode A/B and GiNZA provide offline
 teacher labels. Deterministic synthetic morphology is a minority augmentation.
 The current provenance and acquisition status are recorded in
-`data/acquisition/sources.v1.json` and `manifests/`.
+`packages/training/data/acquisition/sources.v1.json` and
+`packages/training/data/manifests/`.
 
 ## Evaluation
 
@@ -32,7 +33,7 @@ results as follows:
 These are aggregate comparisons against converted annotations, not claims of
 semantic correctness. The 150k model remains weak on B segmentation,
 inflections, and contextual chunk roles. Reproduce the comparison with
-`eval/benchmark_teachers.py` and the sealed evaluation inputs.
+`packages/benchmark/benchmark_teachers.py` and the sealed evaluation inputs.
 
 ## Limitations and risks
 
