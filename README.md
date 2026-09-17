@@ -1,5 +1,11 @@
 # JPU
 
+<video controls width="100%">
+  <source src="apps/website/public/jpu-pipeline.mp4" type="video/mp4">
+  Your browser does not support embedded video. See
+  [jpu-pipeline.mp4](apps/website/public/jpu-pipeline.mp4).
+</video>
+
 JPU is an experimental Japanese surface-grammar analyzer powered directly by
 WebGPU. A 134,832-parameter model predicts morphology and shallow structure at
 Unicode character gaps; deterministic code composes those predictions into a
@@ -39,16 +45,6 @@ scores:
 JPU remains weak on B segmentation, inflection labels, and contextual chunk
 roles. These numbers measure agreement with converted annotations, not semantic
 correctness. See [MODEL_CARD.md](MODEL_CARD.md).
-
-## Pipeline video
-
-The silent explainer video shows JPU's actual runtime path from raw Unicode
-input through WebGPU features, contextual layers, prediction heads, and
-deterministic composition:
-
-[Watch the JPU pipeline video](apps/website/public/jpu-pipeline.mp4)
-
-The Manim source and storyboard are in [`video/`](video/).
 
 ## Development
 
